@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.basewarehouse.activity.MvcActivity;
+import com.example.basewarehouse.activity.MvpActivity;
 import com.example.basewarehouse.app.Constants;
 import com.example.basewarehouse.bean.CityBean;
 import com.google.gson.Gson;
@@ -61,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent = new Intent(MainActivity.this, MvcActivity.class);
             startActivity(intent);
         }else if(v==btn_mvp){
-
+            intent = new Intent(MainActivity.this, MvpActivity.class);
+            startActivity(intent);
         }
     }
 }

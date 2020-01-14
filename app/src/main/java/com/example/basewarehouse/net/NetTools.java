@@ -254,9 +254,10 @@ public class NetTools {
         String data;
         try {
             JSONObject jsonObject = new JSONObject(json);
-            code = jsonObject.getInt("code");
-            msg = jsonObject.getString("msg");
-            data = jsonObject.getString("data");
+            code = jsonObject.getInt("status");
+            msg = jsonObject.getString("message");
+//            data = jsonObject.getString("data");
+            data =json;
             if(code==200){
                 if(TextUtils.isEmpty(data)){
                     callbackSuccess(callBackListener, json,code, null);
@@ -318,7 +319,7 @@ public class NetTools {
 
 
     public static String baseUrl(){
-        return "https://www.baidu.com/";
+        return "http://t.weather.sojson.com";
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.basewarehouse.activity;
 
+
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
@@ -8,15 +9,14 @@ import androidx.annotation.Nullable;
 
 import com.example.basewarehouse.R;
 import com.example.basewarehouse.bean.WeatherInfo;
-import com.example.basewarehouse.mvc.BaseActivity;
+import com.example.basewarehouse.contacts.WeatherContacts;
+import com.example.basewarehouse.mvp.MvpBaseActivity;
+import com.example.basewarehouse.presenter.WeatherPresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * https://www.cnblogs.com/java888/p/11121987.html
- */
-public class MvcActivity extends BaseActivity {
+public class MvpActivity extends MvpBaseActivity<WeatherPresenter> implements WeatherContacts.WeatherInfoUi {
 
     @BindView(R.id.tv_net)
     TextView tv_net;
@@ -40,7 +40,18 @@ public class MvcActivity extends BaseActivity {
     @BindView(R.id.tv_area)
     TextView tv_area;
 
-    private String url="/api/weather/city/101010100";
+
+    private String codeCity="101010100";
+
+    @Override
+    protected void initData() {
+        presenter.getWeatherInfo(0,codeCity);
+    }
+
+    @Override
+    protected void initView() {
+        tv_title.setText("mvp获取天气");
+    }
 
     @Override
     public int intiLayout() {
@@ -48,39 +59,38 @@ public class MvcActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
-        tv_title.setText("mvc的模式demo");
+    protected WeatherPresenter bindPresenter() {
+        return new WeatherPresenter(this);
     }
 
     @Override
-    public void initData() {
-        get(url,0);
+    public void showWeatherInfo(WeatherInfo weatherInfo) {
+        tv_area.setText("地区："+weatherInfo.cityInfo.city);
+        tv_time.setText("更新时间："+weatherInfo.time);
+        tv_ganmao.setText("指数:"+weatherInfo.data.ganmao);
+        tv_pm10.setText("pm10："+weatherInfo.data.pm10);
+        tv_pm25.setText("pm25："+weatherInfo.data.pm25);
+        tv_quality.setText("空气质量："+weatherInfo.data.quality);
+        tv_shidu.setText("湿度："+weatherInfo.data.shidu);
+        tv_wendu.setText("温度："+weatherInfo.data.wendu);
     }
 
     @Override
-    protected void returnData(int requestCode, String reslutData) {
-        if(requestCode==0){
-            WeatherInfo weatherInfo = gosn.fromJson(reslutData,WeatherInfo.class);
-            tv_area.setText("地区："+weatherInfo.cityInfo.city);
-            tv_time.setText("更新时间："+weatherInfo.time);
-            tv_ganmao.setText("指数:"+weatherInfo.data.ganmao);
-            tv_pm10.setText("pm10："+weatherInfo.data.pm10);
-            tv_pm25.setText("pm25："+weatherInfo.data.pm25);
-            tv_quality.setText("空气质量："+weatherInfo.data.quality);
-            tv_shidu.setText("湿度："+weatherInfo.data.shidu);
-            tv_wendu.setText("温度："+weatherInfo.data.wendu);
-        }
-        super.returnData(requestCode, reslutData);
+    public void showFailUI(int requesCode) {
+
     }
 
+    @Override
+    public void showBeforeNetUI(int requesCode) {
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==2){
-            String code =data.getStringExtra("code");
-            url="/api/weather/city/"+ code;
-            get(url,0);
+            codeCity =data.getStringExtra("code");
+            presenter.getWeatherInfo(0,codeCity);
         }
     }
 
@@ -92,12 +102,12 @@ public class MvcActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_list:
-                intent = new Intent(MvcActivity.this,MvcListActivity.class);
-                intent.putExtra("weatherUrl",url);
+                intent = new Intent(MvpActivity.this,MvpListActivity.class);
+                intent.putExtra("code",codeCity);
                 startActivityForResult(intent,1);
                 break;
             case R.id.tv_net:
-                intent = new Intent(MvcActivity.this,ChoiceCityActivity.class);
+                intent = new Intent(MvpActivity.this,ChoiceCityActivity.class);
                 startActivityForResult(intent,1);
                 break;
         }

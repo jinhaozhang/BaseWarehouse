@@ -53,6 +53,7 @@ public class MvcListActivity extends ListBaseActivity<WeatherInfo.ForecastInfo, 
     protected ViewHolder createRecyclerViewHolder(View view) {
         return new ViewHolder(view);
     }
+
     @OnClick({R.id.iv_btn})
     public void onViewClicked(View view) {
         Intent intent;
