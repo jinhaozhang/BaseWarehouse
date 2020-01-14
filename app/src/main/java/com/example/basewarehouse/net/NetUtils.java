@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.basewarehouse.utils.TS;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -99,8 +100,8 @@ public class NetUtils {
                 int code =response.code();
                 try {
                     JsonObject jo = parser.parse(json).getAsJsonObject();
-                    code = jo.get("code").getAsInt();
-                    String msg = jo.get("msg").getAsString();
+                    code = jo.get("status").getAsInt();
+                    String msg = jo.get("message").getAsString();
                     if(code==200){
                         backSuccessData(json,httpCallBack );
 //                        if (httpCallBack.mType == String.class) {
@@ -345,7 +346,7 @@ public class NetUtils {
     }
 
     public static String baseUrl(){
-            return "https://www.baidu.com/";
+            return "http://t.weather.sojson.com";
     }
 
 
@@ -443,7 +444,7 @@ public class NetUtils {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                Log.i("Net",msg);
+                TS.show(msg);
                 httpCallBack.onLogin();
             }
         });
@@ -452,7 +453,7 @@ public class NetUtils {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                Log.i("Net","数据解析失败，请重新进入");
+                TS.show("数据解析失败，请重新进入");
                 httpCallBack.onParseJsonException();
             }
         });
@@ -463,9 +464,9 @@ public class NetUtils {
             public void run() {
                 if(code!=406){
                     if(TextUtils.isEmpty(msg)){
-                        Log.i("Net",code+"  ");
+                        TS.show(code+"  ");
                     }else {
-                        Log.i("Net",msg);
+                        TS.show(msg);
                     }
                 }
                 httpCallBack.onOtherException(code,msg);

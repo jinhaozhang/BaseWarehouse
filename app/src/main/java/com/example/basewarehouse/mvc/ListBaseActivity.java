@@ -105,10 +105,10 @@ public abstract class ListBaseActivity<T,K extends ListViewHolder> extends BaseA
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(reslutData);
-                String data =jsonObject.getString("data");
-                String pageBarJson =jsonObject.getString("pageBar");
-                pageBean=new Gson().fromJson(pageBarJson, PageBean.class);
-                List<T> listData = analysisJson(data);
+//                String data =jsonObject.getString("data");
+//                String pageBarJson =jsonObject.getString("pageBar");
+//                pageBean=new Gson().fromJson(pageBarJson, PageBean.class);
+                List<T> listData = analysisJson(reslutData);
                 if(isDropDown){
                     list.clear();
                 }
@@ -131,7 +131,7 @@ public abstract class ListBaseActivity<T,K extends ListViewHolder> extends BaseA
         super.returnData(requestCode, reslutData);
     }
 
-    private void showData(List<T> listData){
+    protected void showData(List<T> listData){
         ll_bottom.setVisibility(View.VISIBLE);
         if(recyclerAdapter==null){
             list.addAll(listData);
@@ -215,7 +215,7 @@ public abstract class ListBaseActivity<T,K extends ListViewHolder> extends BaseA
 
         @Override
         public void onBindViewHolder(@NonNull K viewHolder, final int i) {
-            onBindData(viewHolder,i);
+            onBindData(viewHolder,list.get(i),i);
         }
 
         @Override
@@ -280,6 +280,6 @@ public abstract class ListBaseActivity<T,K extends ListViewHolder> extends BaseA
     /**
      * 绑定条目的数据
      */
-    public abstract void onBindData(K viewHolder, final int i);
+    public abstract void onBindData(K viewHolder,T t, final int i);
 
 }
