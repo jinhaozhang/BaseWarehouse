@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_network"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_centerInParent="true"
+            android:id="@+id/v"
+            android:layout_width="1dp"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/root"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/v"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/color_9"
+            android:text="网络异常，请刷新重试"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <ImageView
+            android:layout_marginBottom="-40dp"
+            android:layout_above="@+id/root"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/iv"
+            android:src="@mipmap/img_wangluoyichang"
+            android:layout_width="160dp"
+            android:layout_height="160dp" />
+
+        <TextView
+            android:id="@+id/tv_again"
+            android:text="重新加载"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/root"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:background="@drawable/background_gradient_20"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</LinearLayout>
